@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import re
 from scapy.all import sniff, ICMP, Raw
 
@@ -8,10 +7,7 @@ COHERENT_WORDS = {
 }
 
 def capturar_mensaje(timeout=20):
-    """
-    Captura paquetes ICMP tipo echo-request (tipo 8) durante 'timeout' segundos.
-    Se acumulan todos los caracteres. Si el mensaje termina en 'b', se elimina ese último carácter.
-    """
+
     print("Escuchando paquetes ICMP tipo echo-request (tipo 8) por", timeout, "segundos...")
     paquetes = sniff(filter="icmp and icmp[icmptype] == 8", timeout=timeout)
     mensaje = ""
@@ -33,8 +29,6 @@ def capturar_mensaje(timeout=20):
 def resaltar_coherentes(texto, dictionary):
     """
     Resalta en verde cada palabra del texto que se encuentre en 'dictionary'.
-    1. Se separa el texto por secuencias de caracteres no alfanuméricos (puntuación, espacios).
-    2. Se reconstruye el texto con resaltado ANSI para las palabras que coincidan con el diccionario.
     """
     tokens = re.split(r'(\W+)', texto)
     resultado = ""
@@ -47,11 +41,7 @@ def resaltar_coherentes(texto, dictionary):
     return resultado
 
 def contiene_palabra_coherente(texto, dictionary):
-    """
-    Devuelve True si 'texto' contiene alguna palabra del 'dictionary' como palabra completa.
-    - Extrae solo secuencias de letras (a-z, á-ú) y compara con minúsculas.
-    - Evita coincidencias parciales de subcadenas (p.ej. 'ping' en 'camping').
-    """
+
     # Extrae todas las 'palabras' alfanuméricas
     palabras = re.findall(r'[a-zA-Zá-úÁ-Ú]+', texto.lower())
     # Verifica si alguna de ellas está en el diccionario
